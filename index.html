@@ -29,10 +29,16 @@
             min-height: 60px;
         }
         .gradient-bg {
-            background: darkcyan;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
         }
         .site-footer {
-            background: gray;
+            background: linear-gradient(135deg, #3b3273 0%, #5b2da8 100%);
+        }
+        .btn-clear {
+            transition: all 0.2s ease;
+        }
+        .btn-clear:hover {
+            background-color: rgba(239, 68, 68, 0.1);
         }
     </style>
 </head>
@@ -54,22 +60,39 @@
             </div>
         </header>
 
+        <div class="flex justify-end mb-4">
+            <button id="clearAllBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Clear All Content
+            </button>
+        </div>
+
         <div class="grid gap-8 mb-10">
             <!-- Section 1: Opening -->
             <div id="section1" class="speech-section bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold text-blue-700">1. Opening</h2>
-                    <button onclick="exportSection('section1')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Export
-                    </button>
+                    <div class="flex space-x-2">
+                        <button onclick="clearSection('section1')" class="btn-clear text-red-500 border border-red-500 px-3 py-1 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Clear
+                        </button>
+                        <button onclick="exportSection('section1')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Export
+                        </button>
+                    </div>
                 </div>
                 <div class="prose max-w-none">
-                    <p class="mb-3">Good morning/afternoon, everyone. My name is <input type="text" class="border-b-2 border-blue-300 focus:border-blue-500 px-1 focus:outline-none" placeholder="your name">, and I'm <input type="text" class="border-b-2 border-blue-300 focus:border-blue-500 px-1 focus:outline-none" placeholder="your role/position">.</p>
-                    <p class="mb-3">Today, I'm going to talk about <input type="text" class="border-b-2 border-blue-300 focus:border-blue-500 px-1 focus:outline-none w-64" placeholder="your topic">.</p>
-                    <p>This topic is important because <textarea class="w-full border-2 border-blue-300 focus:border-blue-500 rounded-md p-2 focus:outline-none" placeholder="explain why your topic matters to the audience"></textarea></p>
+                    <p class="mb-3">Good morning/afternoon, everyone. My name is <input type="text" class="border-b-2 border-blue-300 focus:border-blue-500 px-1 focus:outline-none" placeholder="your name" data-field="name">, and I'm <input type="text" class="border-b-2 border-blue-300 focus:border-blue-500 px-1 focus:outline-none" placeholder="your role/position" data-field="role">.</p>
+                    <p class="mb-3">Today, I'm going to talk about <input type="text" class="border-b-2 border-blue-300 focus:border-blue-500 px-1 focus:outline-none w-64" placeholder="your topic" data-field="topic">.</p>
+                    <p>This topic is important because <textarea class="w-full border-2 border-blue-300 focus:border-blue-500 rounded-md p-2 focus:outline-none" placeholder="explain why your topic matters to the audience" data-field="importance"></textarea></p>
                 </div>
             </div>
 
@@ -77,19 +100,27 @@
             <div id="section2" class="speech-section bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold text-purple-700">2. Outlining</h2>
-                    <button onclick="exportSection('section2')" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Export
-                    </button>
+                    <div class="flex space-x-2">
+                        <button onclick="clearSection('section2')" class="btn-clear text-red-500 border border-red-500 px-3 py-1 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Clear
+                        </button>
+                        <button onclick="exportSection('section2')" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Export
+                        </button>
+                    </div>
                 </div>
                 <div class="prose max-w-none">
                     <p class="mb-3">In my presentation today, I'll cover three main points:</p>
-                    <p class="mb-2">First, I'll discuss <input type="text" class="border-b-2 border-purple-300 focus:border-purple-500 px-1 focus:outline-none w-64" placeholder="first main point">.</p>
-                    <p class="mb-2">Second, we'll explore <input type="text" class="border-b-2 border-purple-300 focus:border-purple-500 px-1 focus:outline-none w-64" placeholder="second main point">.</p>
-                    <p class="mb-3">Finally, I'll explain <input type="text" class="border-b-2 border-purple-300 focus:border-purple-500 px-1 focus:outline-none w-64" placeholder="third main point">.</p>
-                    <p>By the end of this presentation, you will <textarea class="w-full border-2 border-purple-300 focus:border-purple-500 rounded-md p-2 focus:outline-none" placeholder="what will the audience gain from your presentation?"></textarea></p>
+                    <p class="mb-2">First, I'll discuss <input type="text" class="border-b-2 border-purple-300 focus:border-purple-500 px-1 focus:outline-none w-64" placeholder="first main point" data-field="point1">.</p>
+                    <p class="mb-2">Second, we'll explore <input type="text" class="border-b-2 border-purple-300 focus:border-purple-500 px-1 focus:outline-none w-64" placeholder="second main point" data-field="point2">.</p>
+                    <p class="mb-3">Finally, I'll explain <input type="text" class="border-b-2 border-purple-300 focus:border-purple-500 px-1 focus:outline-none w-64" placeholder="third main point" data-field="point3">.</p>
+                    <p>By the end of this presentation, you will <textarea class="w-full border-2 border-purple-300 focus:border-purple-500 rounded-md p-2 focus:outline-none" placeholder="what will the audience gain from your presentation?" data-field="audience_gain"></textarea></p>
                 </div>
             </div>
 
@@ -97,18 +128,26 @@
             <div id="section3" class="speech-section bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold text-green-700">3. Main Point 1</h2>
-                    <button onclick="exportSection('section3')" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Export
-                    </button>
+                    <div class="flex space-x-2">
+                        <button onclick="clearSection('section3')" class="btn-clear text-red-500 border border-red-500 px-3 py-1 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Clear
+                        </button>
+                        <button onclick="exportSection('section3')" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Export
+                        </button>
+                    </div>
                 </div>
                 <div class="prose max-w-none">
-                    <p class="mb-3">Let's begin with my first point: <input type="text" class="border-b-2 border-green-300 focus:border-green-500 px-1 focus:outline-none w-64" placeholder="restate your first main point">.</p>
-                    <p class="mb-3">To elaborate on this, <textarea class="w-full border-2 border-green-300 focus:border-green-500 rounded-md p-2 focus:outline-none" placeholder="provide details about your first point"></textarea></p>
-                    <p class="mb-3">For example, <textarea class="w-full border-2 border-green-300 focus:border-green-500 rounded-md p-2 focus:outline-none" placeholder="give a specific example or case study"></textarea></p>
-                    <p>The key takeaway here is that <input type="text" class="border-b-2 border-green-300 focus:border-green-500 px-1 focus:outline-none w-64" placeholder="summarize the first point">.</p>
+                    <p class="mb-3">Let's begin with my first point: <input type="text" class="border-b-2 border-green-300 focus:border-green-500 px-1 focus:outline-none w-64" placeholder="restate your first main point" data-field="point1_restate">.</p>
+                    <p class="mb-3">To elaborate on this, <textarea class="w-full border-2 border-green-300 focus:border-green-500 rounded-md p-2 focus:outline-none" placeholder="provide details about your first point" data-field="point1_details"></textarea></p>
+                    <p class="mb-3">For example, <textarea class="w-full border-2 border-green-300 focus:border-green-500 rounded-md p-2 focus:outline-none" placeholder="give a specific example or case study" data-field="point1_example"></textarea></p>
+                    <p>The key takeaway here is that <input type="text" class="border-b-2 border-green-300 focus:border-green-500 px-1 focus:outline-none w-64" placeholder="summarize the first point" data-field="point1_takeaway">.</p>
                 </div>
             </div>
 
@@ -116,18 +155,26 @@
             <div id="section4" class="speech-section bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold text-yellow-700">4. Main Point 2</h2>
-                    <button onclick="exportSection('section4')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Export
-                    </button>
+                    <div class="flex space-x-2">
+                        <button onclick="clearSection('section4')" class="btn-clear text-red-500 border border-red-500 px-3 py-1 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Clear
+                        </button>
+                        <button onclick="exportSection('section4')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Export
+                        </button>
+                    </div>
                 </div>
                 <div class="prose max-w-none">
-                    <p class="mb-3">Moving on to my second point: <input type="text" class="border-b-2 border-yellow-300 focus:border-yellow-500 px-1 focus:outline-none w-64" placeholder="restate your second main point">.</p>
-                    <p class="mb-3">This is significant because <textarea class="w-full border-2 border-yellow-300 focus:border-yellow-500 rounded-md p-2 focus:outline-none" placeholder="explain why this point matters"></textarea></p>
-                    <p class="mb-3">Consider this: <textarea class="w-full border-2 border-yellow-300 focus:border-yellow-500 rounded-md p-2 focus:outline-none" placeholder="provide supporting evidence or statistics"></textarea></p>
-                    <p>What we can learn from this is <input type="text" class="border-b-2 border-yellow-300 focus:border-yellow-500 px-1 focus:outline-none w-64" placeholder="summarize the second point">.</p>
+                    <p class="mb-3">Moving on to my second point: <input type="text" class="border-b-2 border-yellow-300 focus:border-yellow-500 px-1 focus:outline-none w-64" placeholder="restate your second main point" data-field="point2_restate">.</p>
+                    <p class="mb-3">This is significant because <textarea class="w-full border-2 border-yellow-300 focus:border-yellow-500 rounded-md p-2 focus:outline-none" placeholder="explain why this point matters" data-field="point2_significance"></textarea></p>
+                    <p class="mb-3">Consider this: <textarea class="w-full border-2 border-yellow-300 focus:border-yellow-500 rounded-md p-2 focus:outline-none" placeholder="provide supporting evidence or statistics" data-field="point2_evidence"></textarea></p>
+                    <p>What we can learn from this is <input type="text" class="border-b-2 border-yellow-300 focus:border-yellow-500 px-1 focus:outline-none w-64" placeholder="summarize the second point" data-field="point2_takeaway">.</p>
                 </div>
             </div>
 
@@ -135,18 +182,26 @@
             <div id="section5" class="speech-section bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold text-red-700">5. Main Point 3</h2>
-                    <button onclick="exportSection('section5')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Export
-                    </button>
+                    <div class="flex space-x-2">
+                        <button onclick="clearSection('section5')" class="btn-clear text-red-500 border border-red-500 px-3 py-1 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Clear
+                        </button>
+                        <button onclick="exportSection('section5')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Export
+                        </button>
+                    </div>
                 </div>
                 <div class="prose max-w-none">
-                    <p class="mb-3">Finally, let's discuss my third point: <input type="text" class="border-b-2 border-red-300 focus:border-red-500 px-1 focus:outline-none w-64" placeholder="restate your third main point">.</p>
-                    <p class="mb-3">To put this into perspective, <textarea class="w-full border-2 border-red-300 focus:border-red-500 rounded-md p-2 focus:outline-none" placeholder="provide context or background information"></textarea></p>
-                    <p class="mb-3">A compelling illustration of this is <textarea class="w-full border-2 border-red-300 focus:border-red-500 rounded-md p-2 focus:outline-none" placeholder="share a relevant story or example"></textarea></p>
-                    <p>The importance of this cannot be overstated because <input type="text" class="border-b-2 border-red-300 focus:border-red-500 px-1 focus:outline-none w-64" placeholder="explain the significance">.</p>
+                    <p class="mb-3">Finally, let's discuss my third point: <input type="text" class="border-b-2 border-red-300 focus:border-red-500 px-1 focus:outline-none w-64" placeholder="restate your third main point" data-field="point3_restate">.</p>
+                    <p class="mb-3">To put this into perspective, <textarea class="w-full border-2 border-red-300 focus:border-red-500 rounded-md p-2 focus:outline-none" placeholder="provide context or background information" data-field="point3_context"></textarea></p>
+                    <p class="mb-3">A compelling illustration of this is <textarea class="w-full border-2 border-red-300 focus:border-red-500 rounded-md p-2 focus:outline-none" placeholder="share a relevant story or example" data-field="point3_example"></textarea></p>
+                    <p>The importance of this cannot be overstated because <input type="text" class="border-b-2 border-red-300 focus:border-red-500 px-1 focus:outline-none w-64" placeholder="explain the significance" data-field="point3_significance">.</p>
                 </div>
             </div>
 
@@ -154,20 +209,28 @@
             <div id="section6" class="speech-section bg-white rounded-lg shadow-md p-6 border-l-4 border-indigo-500">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold text-indigo-700">6. Closing</h2>
-                    <button onclick="exportSection('section6')" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Export
-                    </button>
+                    <div class="flex space-x-2">
+                        <button onclick="clearSection('section6')" class="btn-clear text-red-500 border border-red-500 px-3 py-1 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Clear
+                        </button>
+                        <button onclick="exportSection('section6')" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Export
+                        </button>
+                    </div>
                 </div>
                 <div class="prose max-w-none">
                     <p class="mb-3">In conclusion, today we've covered three key points:</p>
-                    <p class="mb-2">1. <input type="text" class="border-b-2 border-indigo-300 focus:border-indigo-500 px-1 focus:outline-none w-64" placeholder="brief recap of first point"></p>
-                    <p class="mb-2">2. <input type="text" class="border-b-2 border-indigo-300 focus:border-indigo-500 px-1 focus:outline-none w-64" placeholder="brief recap of second point"></p>
-                    <p class="mb-3">3. <input type="text" class="border-b-2 border-indigo-300 focus:border-indigo-500 px-1 focus:outline-none w-64" placeholder="brief recap of third point"></p>
-                    <p class="mb-3">The main message I want you to remember is <textarea class="w-full border-2 border-indigo-300 focus:border-indigo-500 rounded-md p-2 focus:outline-none" placeholder="your key takeaway message"></textarea></p>
-                    <p class="mb-3">Thank you for your attention. I'm now happy to answer any questions you might have about <input type="text" class="border-b-2 border-indigo-300 focus:border-indigo-500 px-1 focus:outline-none w-64" placeholder="your topic">.</p>
+                    <p class="mb-2">1. <input type="text" class="border-b-2 border-indigo-300 focus:border-indigo-500 px-1 focus:outline-none w-64" placeholder="brief recap of first point" data-field="recap_point1"></p>
+                    <p class="mb-2">2. <input type="text" class="border-b-2 border-indigo-300 focus:border-indigo-500 px-1 focus:outline-none w-64" placeholder="brief recap of second point" data-field="recap_point2"></p>
+                    <p class="mb-3">3. <input type="text" class="border-b-2 border-indigo-300 focus:border-indigo-500 px-1 focus:outline-none w-64" placeholder="brief recap of third point" data-field="recap_point3"></p>
+                    <p class="mb-3">The main message I want you to remember is <textarea class="w-full border-2 border-indigo-300 focus:border-indigo-500 rounded-md p-2 focus:outline-none" placeholder="your key takeaway message" data-field="key_message"></textarea></p>
+                    <p class="mb-3">Thank you for your attention. I'm now happy to answer any questions you might have about <input type="text" class="border-b-2 border-indigo-300 focus:border-indigo-500 px-1 focus:outline-none w-64" placeholder="your topic" data-field="closing_topic">.</p>
                 </div>
             </div>
         </div>
@@ -200,6 +263,22 @@
                 </div>
             </div>
         </div>
+
+        <!-- Clear All Confirmation Modal -->
+        <div id="clearAllModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg p-6 max-w-md w-full">
+                <h3 class="text-xl font-bold mb-4 text-red-600">Clear All Content?</h3>
+                <p class="text-gray-600 mb-6">Are you sure you want to clear all content? This action cannot be undone.</p>
+                <div class="flex space-x-4">
+                    <button onclick="confirmClearAll()" class="w-1/2 bg-red-500 hover:bg-red-600 text-white py-3 rounded-md">
+                        Yes, Clear All
+                    </button>
+                    <button onclick="closeClearAllModal()" class="w-1/2 border border-gray-300 text-gray-700 py-3 rounded-md hover:bg-gray-100">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- New Site Footer -->
@@ -207,16 +286,128 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0">
                 <p class="mr-2">
-                    <a href="https://www.aaronshi.cc" target="_blank" rel="noopener noreferrer" class="flex items-center hover:text-purple-200 transition duration-300">Go to AaronShi.cc</a>
+                    <a href="https://www.aaronshi.cc" target="_blank" rel="noopener noreferrer" class="flex items-center hover:text-purple-200 transition duration-300">
+                        Go to AaronShi.cc
+                    </a>
                 </p>
-                <span class="mx-2 hidden md:block"> | </span>
-                <a href="https://app.aaronshi.cc" target="_blank" rel="noopener noreferrer" class="flex items-center hover:text-purple-200 transition duration-300">Back to AaronShi.cc App</a>
+                <span class="mx-2 hidden md:block">|</span>
+                <a href="https://app.aaronshi.cc" target="_blank" rel="noopener noreferrer" class="flex items-center hover:text-purple-200 transition duration-300">
+                    Back to AaronShi.cc App
+                </a>
             </div>
         </div>
     </footer>
 
     <script>
         let currentSectionId = '';
+
+        // Initialize the app when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved content from localStorage
+            loadAllContent();
+            
+            // Add event listeners to all inputs and textareas to save content
+            const allInputs = document.querySelectorAll('input[data-field], textarea[data-field]');
+            allInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    saveField(this);
+                });
+            });
+            
+            // Add event listener for clear all button
+            document.getElementById('clearAllBtn').addEventListener('click', function() {
+                document.getElementById('clearAllModal').classList.remove('hidden');
+            });
+        });
+
+        // Save a single field to localStorage
+        function saveField(element) {
+            const sectionId = element.closest('.speech-section').id;
+            const fieldName = element.getAttribute('data-field');
+            const value = element.value;
+            
+            // Get existing section data or create new object
+            let sectionData = JSON.parse(localStorage.getItem(sectionId)) || {};
+            
+            // Update the field
+            sectionData[fieldName] = value;
+            
+            // Save back to localStorage
+            localStorage.setItem(sectionId, JSON.stringify(sectionData));
+        }
+
+        // Load all content from localStorage
+        function loadAllContent() {
+            // For each section
+            for (let i = 1; i <= 6; i++) {
+                const sectionId = 'section' + i;
+                const sectionData = JSON.parse(localStorage.getItem(sectionId)) || {};
+                
+                // Find all inputs and textareas in this section
+                const inputs = document.querySelectorAll(`#${sectionId} input[data-field], #${sectionId} textarea[data-field]`);
+                
+                // Set their values from localStorage
+                inputs.forEach(input => {
+                    const fieldName = input.getAttribute('data-field');
+                    if (sectionData[fieldName]) {
+                        input.value = sectionData[fieldName];
+                    }
+                });
+            }
+        }
+
+        // Clear a specific section
+        function clearSection(sectionId) {
+            // Clear from localStorage
+            localStorage.removeItem(sectionId);
+            
+            // Clear all inputs and textareas in the section
+            const inputs = document.querySelectorAll(`#${sectionId} input[data-field], #${sectionId} textarea[data-field]`);
+            inputs.forEach(input => {
+                input.value = '';
+            });
+            
+            // Show feedback
+            const section = document.getElementById(sectionId);
+            const originalBorder = section.style.borderLeft;
+            
+            // Flash effect
+            section.style.backgroundColor = 'rgba(254, 226, 226, 0.5)'; // Light red background
+            setTimeout(() => {
+                section.style.backgroundColor = '';
+            }, 300);
+        }
+
+        // Show clear all confirmation modal
+        function closeClearAllModal() {
+            document.getElementById('clearAllModal').classList.add('hidden');
+        }
+
+        // Confirm and execute clear all
+        function confirmClearAll() {
+            // Clear all sections from localStorage
+            for (let i = 1; i <= 6; i++) {
+                localStorage.removeItem('section' + i);
+            }
+            
+            // Clear all inputs and textareas
+            const allInputs = document.querySelectorAll('input[data-field], textarea[data-field]');
+            allInputs.forEach(input => {
+                input.value = '';
+            });
+            
+            // Close the modal
+            closeClearAllModal();
+            
+            // Flash effect on all sections
+            const sections = document.querySelectorAll('.speech-section');
+            sections.forEach(section => {
+                section.style.backgroundColor = 'rgba(254, 226, 226, 0.5)'; // Light red background
+                setTimeout(() => {
+                    section.style.backgroundColor = '';
+                }, 300);
+            });
+        }
 
         function exportSection(sectionId) {
             currentSectionId = sectionId;
@@ -344,7 +535,7 @@
             // Add footer with author credit
             htmlContent += `
                 <div class="footer">
-                    <p>Created with <a href="https://app.aaronshi.cc/speech-builder" target="_blank">Speech Builder</a> | <a href="https://app.aaronshi.cc/" target="_blank">Visit AaronShi.cc App</a></p>
+                    <p>Created with <a href="https://www.aaronshi.cc" target="_blank">Speech Script Builder</a> | <a href="https://app.aaronshi.cc" target="_blank">Visit AaronShi.cc App</a></p>
                 </div>
             </body>
             </html>`;
@@ -522,5 +713,5 @@
             closeModal();
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94b0c129a5d28f0c',t:'MTc0OTEzNzg4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94d7a166a7404a03',t:'MTc0OTU0NTUyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
